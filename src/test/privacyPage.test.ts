@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 const privacyPagePath = fileURLToPath(new URL("../../public/privacy.html", import.meta.url));
+const docsPrivacyPagePath = fileURLToPath(new URL("../../docs/privacy.html", import.meta.url));
 const openingScreenPath = fileURLToPath(new URL("../screens/OpeningScreen.tsx", import.meta.url));
 
 describe("privacy policy page", () => {
@@ -18,6 +19,18 @@ describe("privacy policy page", () => {
     expect(html).toContain("localStorage");
     expect(html).toContain("https://github.com/hhy0111/cat-kingdom-wars/issues");
     expect(html).not.toMatch(/TBD|TODO|작성 필요|example@example\.com/i);
+  });
+
+  it("publishes a GitHub Pages copy from the docs folder", () => {
+    expect(existsSync(docsPrivacyPagePath)).toBe(true);
+
+    const html = readFileSync(docsPrivacyPagePath, "utf8");
+
+    expect(html).toContain("Cat Kingdom Wars");
+    expect(html).toContain("개인정보처리방침");
+    expect(html).toContain("Google AdMob");
+    expect(html).toContain("localStorage");
+    expect(html).toContain("https://github.com/hhy0111/cat-kingdom-wars/issues");
   });
 
   it("links the privacy policy from the opening screen", () => {

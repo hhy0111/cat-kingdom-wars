@@ -794,5 +794,16 @@ Original prompt: Build Cat Kingdom Wars as a high-quality 2D strategy game. The 
   - TDD red run confirmed the privacy page and opening link were missing before implementation,
   - `npm test` passed: 47/47 tests,
   - `npm run build` passed and copied `public/privacy.html` to `dist/privacy.html`,
-  - direct Playwright privacy verification saved under `output/web-game/privacy-page-2026-06-14/`; it confirmed title, 9 sections, AdMob mention, localStorage mention, contact link, and no page/request errors,
+ - direct Playwright privacy verification saved under `output/web-game/privacy-page-2026-06-14/`; it confirmed title, 9 sections, AdMob mention, localStorage mention, contact link, and no page/request errors,
   - official develop-web-game client refreshed `output/web-game/shot-0.png` / `output/web-game/state-0.json`.
+
+2026-06-14 GitHub Pages privacy publish fix:
+- User saved GitHub Pages source as `main` branch `/docs` folder and asked for the privacy page location.
+- Finding:
+  - `https://hhy0111.github.io/cat-kingdom-wars/privacy.html` returned 404 because `privacy.html` existed only under `public/`, while Pages was configured to publish from `/docs`.
+- Changes:
+  - added `docs/privacy.html` with the same store-facing privacy policy content,
+  - extended `src/test/privacyPage.test.ts` to require a `/docs` copy for GitHub Pages deployment.
+- Verification:
+  - TDD red run confirmed the `/docs` privacy page was missing,
+  - targeted privacy page test passed: 3/3 tests.
