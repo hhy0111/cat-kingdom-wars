@@ -1,0 +1,22 @@
+[
+  {
+    "id": "super_knight_cat",
+    "name": "슈퍼냥 기사",
+    "factionId": "cat_kingdom",
+    "spriteKey": "super_knight_cat",
+    "animationSetKey": "super_knight_cat_basic",
+    "cooldown": 60000,
+    "duration": 30000,
+    "spawnEffectKey": "fx_summon_portal",
+    "stats": {
+      "hp": 1800,
+      "attack": 160,
+      "attackRange": 42,
+      "attackSpeed": 1.35,
+      "moveSpeed": 78,
+      "defense": 18,
+      "aoeRadius": 38
+    }
+  }
+]
+

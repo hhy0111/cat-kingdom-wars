@@ -1,0 +1,43 @@
+[
+  {
+    "id": "fx_fire_bombardment",
+    "type": "particle",
+    "durationMs": 850,
+    "blendMode": "screen",
+    "scale": 1.2,
+    "colorTint": "#ff6b3d",
+    "attachTo": "world",
+    "soundKey": "sfx_fire"
+  },
+  {
+    "id": "fx_healing_light",
+    "type": "particle",
+    "durationMs": 1000,
+    "blendMode": "screen",
+    "scale": 1.1,
+    "colorTint": "#8dffb0",
+    "attachTo": "world",
+    "soundKey": "sfx_heal"
+  },
+  {
+    "id": "fx_summon_portal",
+    "type": "sprite",
+    "durationMs": 1200,
+    "blendMode": "screen",
+    "scale": 1.4,
+    "colorTint": "#7b5cff",
+    "attachTo": "world",
+    "soundKey": "sfx_summon"
+  },
+  {
+    "id": "fx_base_explosion",
+    "type": "particle",
+    "durationMs": 1400,
+    "blendMode": "screen",
+    "scale": 1.6,
+    "colorTint": "#ffb13d",
+    "attachTo": "base",
+    "soundKey": "sfx_explosion"
+  }
+]
+

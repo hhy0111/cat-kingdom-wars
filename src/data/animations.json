@@ -1,0 +1,38 @@
+[
+  {
+    "id": "cat_swordsman_basic",
+    "states": ["idle", "walk", "attack", "hit", "death"],
+    "frameMs": 110,
+    "palette": ["#f7d58a", "#2f6fd6", "#ffffff", "#d94747"]
+  },
+  {
+    "id": "cat_archer_basic",
+    "states": ["idle", "walk", "attack", "hit", "death"],
+    "frameMs": 120,
+    "palette": ["#f0c778", "#4e9f50", "#ffffff", "#895737"]
+  },
+  {
+    "id": "cat_mage_basic",
+    "states": ["idle", "walk", "attack", "hit", "death"],
+    "frameMs": 130,
+    "palette": ["#f0c778", "#8b5cf6", "#fff1ff", "#58c7ff"]
+  },
+  {
+    "id": "cat_tank_basic",
+    "states": ["idle", "walk", "attack", "hit", "death"],
+    "frameMs": 115,
+    "palette": ["#f0c778", "#6b7280", "#fff7d6", "#f5b642"]
+  },
+  {
+    "id": "dog_soldier_basic",
+    "states": ["idle", "walk", "attack", "hit", "death"],
+    "frameMs": 120,
+    "palette": ["#a47a58", "#7c2d12", "#fff7ed", "#44403c"]
+  },
+  {
+    "id": "super_knight_cat_basic",
+    "states": ["idle", "walk", "attack", "hit", "death"],
+    "frameMs": 95,
+    "palette": ["#ffe29a", "#2f6fd6", "#ffffff", "#ffd84a"]
+  }
+]

@@ -1,0 +1,148 @@
+[
+  {
+    "id": "stage_001",
+    "name": "새벽의 국경",
+    "mapSize": 1000,
+    "playerFactionId": "cat_kingdom",
+    "enemyFactionId": "dog_empire",
+    "playerBase": {
+      "id": "base_player",
+      "factionId": "cat_kingdom",
+      "x": 180,
+      "y": 820,
+      "level": 1,
+      "hp": 900,
+      "unitPool": ["cat_swordsman", "cat_archer"]
+    },
+    "enemyBase": {
+      "id": "base_enemy",
+      "factionId": "dog_empire",
+      "x": 820,
+      "y": 180,
+      "level": 1,
+      "hp": 820,
+      "unitPool": ["dog_soldier"]
+    },
+    "rewards": {
+      "gold": 120,
+      "fish": 8
+    }
+  },
+  {
+    "id": "stage_002",
+    "name": "황금 들판",
+    "mapSize": 1000,
+    "playerFactionId": "cat_kingdom",
+    "enemyFactionId": "dog_empire",
+    "playerBase": {
+      "id": "base_player",
+      "factionId": "cat_kingdom",
+      "x": 180,
+      "y": 820,
+      "level": 1,
+      "hp": 960,
+      "unitPool": ["cat_swordsman", "cat_archer", "cat_tank"]
+    },
+    "enemyBase": {
+      "id": "base_enemy",
+      "factionId": "dog_empire",
+      "x": 820,
+      "y": 180,
+      "level": 2,
+      "hp": 980,
+      "unitPool": ["dog_soldier"]
+    },
+    "rewards": {
+      "gold": 150,
+      "fish": 10
+    }
+  },
+  {
+    "id": "stage_003",
+    "name": "마법 숲길",
+    "mapSize": 1000,
+    "playerFactionId": "cat_kingdom",
+    "enemyFactionId": "dog_empire",
+    "playerBase": {
+      "id": "base_player",
+      "factionId": "cat_kingdom",
+      "x": 180,
+      "y": 820,
+      "level": 2,
+      "hp": 1050,
+      "unitPool": ["cat_swordsman", "cat_archer", "cat_mage"]
+    },
+    "enemyBase": {
+      "id": "base_enemy",
+      "factionId": "dog_empire",
+      "x": 820,
+      "y": 180,
+      "level": 2,
+      "hp": 1120,
+      "unitPool": ["dog_soldier"]
+    },
+    "rewards": {
+      "gold": 180,
+      "fish": 12
+    }
+  },
+  {
+    "id": "stage_004",
+    "name": "불꽃 협곡",
+    "mapSize": 1000,
+    "playerFactionId": "cat_kingdom",
+    "enemyFactionId": "dog_empire",
+    "playerBase": {
+      "id": "base_player",
+      "factionId": "cat_kingdom",
+      "x": 180,
+      "y": 820,
+      "level": 2,
+      "hp": 1160,
+      "unitPool": ["cat_swordsman", "cat_archer", "cat_mage", "cat_tank"]
+    },
+    "enemyBase": {
+      "id": "base_enemy",
+      "factionId": "dog_empire",
+      "x": 820,
+      "y": 180,
+      "level": 3,
+      "hp": 1320,
+      "unitPool": ["dog_soldier"]
+    },
+    "rewards": {
+      "gold": 220,
+      "fish": 15
+    }
+  },
+  {
+    "id": "stage_005",
+    "name": "멍멍 제국 전초기지",
+    "mapSize": 1000,
+    "playerFactionId": "cat_kingdom",
+    "enemyFactionId": "dog_empire",
+    "playerBase": {
+      "id": "base_player",
+      "factionId": "cat_kingdom",
+      "x": 180,
+      "y": 820,
+      "level": 3,
+      "hp": 1300,
+      "unitPool": ["cat_swordsman", "cat_archer", "cat_mage", "cat_tank"]
+    },
+    "enemyBase": {
+      "id": "base_enemy",
+      "factionId": "dog_empire",
+      "x": 820,
+      "y": 180,
+      "level": 3,
+      "hp": 1560,
+      "unitPool": ["dog_soldier"]
+    },
+    "rewards": {
+      "gold": 280,
+      "fish": 20
+    }
+  }
+]
+

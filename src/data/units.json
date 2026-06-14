@@ -1,0 +1,325 @@
+[
+  {
+    "id": "cat_swordsman",
+    "name": "검냥이",
+    "role": "melee",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_swordsman",
+    "animationSetKey": "cat_swordsman_basic",
+    "stats": {
+      "hp": 120,
+      "attack": 18,
+      "attackRange": 28,
+      "attackSpeed": 1.1,
+      "moveSpeed": 68,
+      "defense": 2,
+      "aoeRadius": 0
+    }
+  },
+  {
+    "id": "cat_archer",
+    "name": "궁수냥",
+    "role": "ranged",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_archer",
+    "animationSetKey": "cat_archer_basic",
+    "stats": {
+      "hp": 82,
+      "attack": 14,
+      "attackRange": 150,
+      "attackSpeed": 0.9,
+      "moveSpeed": 62,
+      "defense": 0,
+      "aoeRadius": 0
+    }
+  },
+  {
+    "id": "cat_mage",
+    "name": "마법냥",
+    "role": "aoe",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_mage",
+    "animationSetKey": "cat_mage_basic",
+    "stats": {
+      "hp": 72,
+      "attack": 22,
+      "attackRange": 130,
+      "attackSpeed": 0.65,
+      "moveSpeed": 54,
+      "defense": 0,
+      "aoeRadius": 48
+    }
+  },
+  {
+    "id": "cat_tank",
+    "name": "방패냥",
+    "role": "tank",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_tank",
+    "animationSetKey": "cat_tank_basic",
+    "stats": {
+      "hp": 260,
+      "attack": 10,
+      "attackRange": 26,
+      "attackSpeed": 0.8,
+      "moveSpeed": 44,
+      "defense": 7,
+      "aoeRadius": 0
+    }
+  },
+  {
+    "id": "cat_lancer",
+    "name": "창기병냥",
+    "role": "melee",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_lancer",
+    "animationSetKey": "cat_lancer_basic",
+    "stats": {
+      "hp": 150,
+      "attack": 24,
+      "attackRange": 44,
+      "attackSpeed": 0.88,
+      "moveSpeed": 66,
+      "defense": 3,
+      "aoeRadius": 0
+    }
+  },
+  {
+    "id": "cat_priest",
+    "name": "사제냥",
+    "role": "ranged",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_priest",
+    "animationSetKey": "cat_priest_basic",
+    "stats": {
+      "hp": 92,
+      "attack": 13,
+      "attackRange": 144,
+      "attackSpeed": 0.82,
+      "moveSpeed": 56,
+      "defense": 1,
+      "aoeRadius": 0
+    }
+  },
+  {
+    "id": "cat_ninja",
+    "name": "닌자냥",
+    "role": "melee",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_ninja",
+    "animationSetKey": "cat_ninja_basic",
+    "stats": {
+      "hp": 96,
+      "attack": 17,
+      "attackRange": 30,
+      "attackSpeed": 1.55,
+      "moveSpeed": 92,
+      "defense": 1,
+      "aoeRadius": 0
+    }
+  },
+  {
+    "id": "cat_bomb",
+    "name": "폭탄냥",
+    "role": "aoe",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_bomb",
+    "animationSetKey": "cat_bomb_basic",
+    "stats": {
+      "hp": 78,
+      "attack": 34,
+      "attackRange": 78,
+      "attackSpeed": 0.5,
+      "moveSpeed": 48,
+      "defense": 0,
+      "aoeRadius": 56
+    }
+  },
+  {
+    "id": "cat_engineer",
+    "name": "공병냥",
+    "role": "ranged",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_engineer",
+    "animationSetKey": "cat_engineer_basic",
+    "stats": {
+      "hp": 104,
+      "attack": 20,
+      "attackRange": 128,
+      "attackSpeed": 0.82,
+      "moveSpeed": 55,
+      "defense": 2,
+      "aoeRadius": 22
+    }
+  },
+  {
+    "id": "cat_frost",
+    "name": "서리냥",
+    "role": "aoe",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_frost",
+    "animationSetKey": "cat_frost_basic",
+    "stats": {
+      "hp": 86,
+      "attack": 18,
+      "attackRange": 136,
+      "attackSpeed": 0.62,
+      "moveSpeed": 52,
+      "defense": 1,
+      "aoeRadius": 52
+    }
+  },
+  {
+    "id": "cat_thunder_drummer",
+    "name": "천둥 북냥",
+    "role": "aoe",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_thunder_drummer",
+    "animationSetKey": "cat_thunder_drummer_basic",
+    "stats": {
+      "hp": 126,
+      "attack": 30,
+      "attackRange": 118,
+      "attackSpeed": 0.55,
+      "moveSpeed": 46,
+      "defense": 2,
+      "aoeRadius": 60
+    }
+  },
+  {
+    "id": "cat_royal_cannon",
+    "name": "왕실 포병냥",
+    "role": "aoe",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_royal_cannon",
+    "animationSetKey": "cat_royal_cannon_basic",
+    "stats": {
+      "hp": 118,
+      "attack": 44,
+      "attackRange": 168,
+      "attackSpeed": 0.44,
+      "moveSpeed": 38,
+      "defense": 2,
+      "aoeRadius": 68
+    }
+  },
+  {
+    "id": "cat_star_knight",
+    "name": "별빛 기사냥",
+    "role": "melee",
+    "factionId": "cat_kingdom",
+    "spriteKey": "cat_star_knight",
+    "animationSetKey": "cat_star_knight_basic",
+    "stats": {
+      "hp": 320,
+      "attack": 42,
+      "attackRange": 38,
+      "attackSpeed": 0.85,
+      "moveSpeed": 58,
+      "defense": 10,
+      "aoeRadius": 24
+    }
+  },
+  {
+    "id": "dog_soldier",
+    "name": "멍멍 병사",
+    "role": "melee",
+    "factionId": "dog_empire",
+    "spriteKey": "dog_soldier",
+    "animationSetKey": "dog_soldier_basic",
+    "stats": {
+      "hp": 110,
+      "attack": 16,
+      "attackRange": 28,
+      "attackSpeed": 1.0,
+      "moveSpeed": 64,
+      "defense": 2,
+      "aoeRadius": 0
+    }
+  },
+  {
+    "id": "dog_raider",
+    "name": "멍멍 돌격병",
+    "role": "melee",
+    "factionId": "dog_empire",
+    "spriteKey": "dog_raider",
+    "animationSetKey": "dog_soldier_basic",
+    "stats": {
+      "hp": 96,
+      "attack": 22,
+      "attackRange": 30,
+      "attackSpeed": 1.15,
+      "moveSpeed": 76,
+      "defense": 1,
+      "aoeRadius": 0
+    }
+  },
+  {
+    "id": "dog_guard",
+    "name": "멍멍 방패병",
+    "role": "tank",
+    "factionId": "dog_empire",
+    "spriteKey": "dog_guard",
+    "animationSetKey": "dog_soldier_basic",
+    "stats": {
+      "hp": 210,
+      "attack": 13,
+      "attackRange": 28,
+      "attackSpeed": 0.82,
+      "moveSpeed": 46,
+      "defense": 8,
+      "aoeRadius": 0
+    }
+  },
+  {
+    "id": "dog_captain",
+    "name": "멍멍 대장",
+    "role": "melee",
+    "factionId": "dog_empire",
+    "spriteKey": "dog_captain",
+    "animationSetKey": "dog_soldier_basic",
+    "stats": {
+      "hp": 170,
+      "attack": 28,
+      "attackRange": 34,
+      "attackSpeed": 0.92,
+      "moveSpeed": 58,
+      "defense": 5,
+      "aoeRadius": 24
+    }
+  },
+  {
+    "id": "dog_mage",
+    "name": "Dog Mage",
+    "role": "aoe",
+    "factionId": "dog_empire",
+    "spriteKey": "dog_mage",
+    "animationSetKey": "dog_soldier_basic",
+    "stats": {
+      "hp": 145,
+      "attack": 32,
+      "attackRange": 135,
+      "attackSpeed": 0.68,
+      "moveSpeed": 52,
+      "defense": 3,
+      "aoeRadius": 42
+    }
+  },
+  {
+    "id": "dog_siege_brute",
+    "name": "Dog Siege Brute",
+    "role": "tank",
+    "factionId": "dog_empire",
+    "spriteKey": "dog_siege_brute",
+    "animationSetKey": "dog_soldier_basic",
+    "stats": {
+      "hp": 360,
+      "attack": 38,
+      "attackRange": 34,
+      "attackSpeed": 0.62,
+      "moveSpeed": 36,
+      "defense": 12,
+      "aoeRadius": 34
+    }
+  }
+]

@@ -1,0 +1,45 @@
+[
+  {
+    "id": "fire_bombardment",
+    "name": "화염폭격",
+    "type": "damage",
+    "cooldown": 4500,
+    "targetType": "area",
+    "effectType": "damage",
+    "value": 120,
+    "duration": 600,
+    "range": 130,
+    "description": "지정 범위에 화염 폭발 피해를 줍니다.",
+    "iconKey": "icon_fire_bombardment",
+    "effectKey": "fx_fire_bombardment"
+  },
+  {
+    "id": "healing_light",
+    "name": "치유의 빛",
+    "type": "heal",
+    "cooldown": 6000,
+    "targetType": "area",
+    "effectType": "heal",
+    "value": 90,
+    "duration": 850,
+    "range": 150,
+    "description": "아군을 치유하는 빛의 원을 생성합니다.",
+    "iconKey": "icon_healing_light",
+    "effectKey": "fx_healing_light"
+  },
+  {
+    "id": "debug_base_breaker",
+    "name": "QA 공성탄",
+    "type": "damage",
+    "cooldown": 0,
+    "targetType": "area",
+    "effectType": "damageBase",
+    "value": 2000,
+    "duration": 250,
+    "range": 180,
+    "description": "자동화 테스트용 기지 파괴 스킬입니다.",
+    "iconKey": "icon_debug",
+    "effectKey": "fx_base_explosion"
+  }
+]
+
