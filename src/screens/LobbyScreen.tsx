@@ -1,6 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import stages, { STAGES_PER_REGION, TOTAL_STAGE_COUNT } from "../data/stages";
 import { playSfx, unlockGameAudio } from "../game/audio";
+import {
+  BILLING_PRODUCTS,
+  formatBillingReward,
+  loadBillingProducts,
+  purchaseBillingProduct,
+  type BillingProduct,
+  type BillingProductId,
+} from "../game/billing";
 import { useDragScroll } from "../hooks/useDragScroll";
 import {
   characterShopItems,
@@ -25,14 +33,22 @@ export function LobbyScreen() {
   const startStage = useGameStore((state) => state.startStage);
   const purchaseKingdomUpgrade = useGameStore((state) => state.purchaseKingdomUpgrade);
   const purchaseCharacter = useGameStore((state) => state.purchaseCharacter);
+  const claimBillingProduct = useGameStore((state) => state.claimBillingProduct);
   const claimDailyReward = useGameStore((state) => state.claimDailyReward);
   const [showUpgradeShop, setShowUpgradeShop] = useState(false);
   const [showCharacterShop, setShowCharacterShop] = useState(false);
+  const [showBillingShop, setShowBillingShop] = useState(false);
   const [showWorldMap, setShowWorldMap] = useState(false);
   const [shopMessage, setShopMessage] = useState("전투 보상으로 왕국과 캐릭터를 강화하세요.");
+  const [billingMessage, setBillingMessage] = useState("Google Play 결제로 Gold와 Fish를 충전할 수 있습니다.");
+  const [billingProducts, setBillingProducts] = useState<BillingProduct[]>(() =>
+    BILLING_PRODUCTS.map((product) => ({ ...product, reward: { ...product.reward } })),
+  );
+  const [billingBusyProductId, setBillingBusyProductId] = useState<BillingProductId | null>(null);
   const [lobbyMessage, setLobbyMessage] = useState("1-10 번호는 20개 전선 단위의 지역 빠른 이동입니다. 전투는 중앙 포털에서 시작합니다.");
   const upgradeShopDragScroll = useDragScroll<HTMLDivElement>();
   const characterShopDragScroll = useDragScroll<HTMLDivElement>();
+  const billingShopDragScroll = useDragScroll<HTMLDivElement>();
   const worldMapDragScroll = useDragScroll<HTMLDivElement>();
 
   const nextStage = useMemo(() => getNextPlayableStage(progress), [progress]);
@@ -108,6 +124,49 @@ export function LobbyScreen() {
 
     playSfx("shopPurchase");
     setShopMessage(`${item.title} 합류. 다음 전투부터 편성에 등장합니다.`);
+  };
+
+  const openBillingShop = () => {
+    unlockGameAudio();
+    playSfx("shopOpen");
+    setShowBillingShop(true);
+    setBillingMessage("Google Play 상품 정보를 확인하는 중입니다.");
+    void loadBillingProducts()
+      .then((products) => {
+        setBillingProducts(products);
+        setBillingMessage("Google Play 결제로 Gold와 Fish를 충전할 수 있습니다.");
+      })
+      .catch(() => {
+        setBillingMessage("상품 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+      });
+  };
+
+  const handleBillingPurchase = async (productId: BillingProductId) => {
+    if (billingBusyProductId) {
+      return;
+    }
+
+    setBillingBusyProductId(productId);
+    setBillingMessage("Google Play 결제창을 여는 중입니다.");
+
+    const result = await purchaseBillingProduct(productId);
+    if (result.ok) {
+      const claim = claimBillingProduct(result.productId);
+      if (claim.ok) {
+        playSfx("shopPurchase");
+        playSfx("goldCount");
+        setBillingMessage(`구매 완료: ${formatBillingReward(claim.reward)} 지급되었습니다.`);
+      } else {
+        playSfx("uiDisabled");
+        setBillingMessage("결제는 완료됐지만 보상 정보를 찾지 못했습니다. 앱을 재시작한 뒤 보유 재화를 확인해주세요.");
+      }
+      setBillingBusyProductId(null);
+      return;
+    }
+
+    playSfx(result.status === "canceled" ? "uiDisabled" : "shopNotEnough");
+    setBillingMessage(result.error ?? "결제를 완료하지 못했습니다. Google Play 상태를 확인한 뒤 다시 시도해주세요.");
+    setBillingBusyProductId(null);
   };
 
   const pickRegion = (regionIndex: number) => {
@@ -195,12 +254,20 @@ export function LobbyScreen() {
         lobbyMessage,
         upgradeShopOpen: showUpgradeShop,
         characterShopOpen: showCharacterShop,
+        billingShopOpen: showBillingShop,
+        billingProducts: billingProducts.map((product) => ({
+          id: product.id,
+          title: product.title,
+          priceLabel: product.priceLabel,
+          reward: product.reward,
+        })),
         worldMapOpen: showWorldMap,
         rule: "Stage buttons only select a front. The central portal starts battle. Re-cleared stages pay half rewards.",
       });
     window.advanceTime = undefined;
   }, [
     highestClearedStageNumber,
+    billingProducts,
     lobbyMessage,
     nextStage.id,
     nextStage.name,
@@ -213,6 +280,7 @@ export function LobbyScreen() {
     selectedStageNumber,
     selectedStageReward,
     selectedStageUnlocked,
+    showBillingShop,
     showCharacterShop,
     showUpgradeShop,
     showWorldMap,
@@ -259,6 +327,11 @@ export function LobbyScreen() {
             <i aria-hidden="true" />
             <strong>캐릭터 상점</strong>
             <span>출전 해금</span>
+          </button>
+          <button className="map-shop-button billing-shop-button" type="button" onClick={openBillingShop}>
+            <i aria-hidden="true" />
+            <strong>결제 상점</strong>
+            <span>Gold / Fish</span>
           </button>
         </div>
 
@@ -422,6 +495,56 @@ export function LobbyScreen() {
               <p className="character-release-note">추가 캐릭터는 시즌 보상으로 공개됩니다.</p>
             </section>
 
+          </div>
+        </aside>
+      )}
+
+      {showBillingShop && (
+        <aside className="upgrade-guide-modal" role="dialog" aria-label="결제 상점">
+          <div className="upgrade-guide-card research-card shop-card image-shop-card billing-shop-card drag-scroll" {...billingShopDragScroll}>
+            <div className="modal-title-row">
+              <div>
+                <p className="eyebrow">Billing Shop</p>
+                <h3>결제 상점</h3>
+              </div>
+              <button
+                type="button"
+                className="modal-close-button"
+                onClick={() => {
+                  playSfx("uiTap");
+                  setShowBillingShop(false);
+                }}
+              >
+                닫기
+              </button>
+            </div>
+            <p>구매 완료 후 Google Play에서 소비 처리된 상품만 보상으로 지급됩니다.</p>
+            <div className="research-message">{billingMessage}</div>
+
+            <section className="shop-section">
+              <h4>Gold / Fish 충전</h4>
+              <div className="billing-product-list">
+                {billingProducts.map((product) => {
+                  const busy = billingBusyProductId === product.id;
+                  const disabled = billingBusyProductId !== null;
+
+                  return (
+                    <div key={product.id} className={`billing-product-row image-shop-row billing-${product.id}`}>
+                      <span className="shop-item-art billing-product-art" aria-hidden="true" />
+                      <div>
+                        <strong>{product.title}</strong>
+                        <span>{formatBillingReward(product.reward)}</span>
+                        <em>상품 ID: {product.id}</em>
+                      </div>
+                      <button type="button" disabled={disabled} onClick={() => handleBillingPurchase(product.id)}>
+                        {busy ? "처리 중" : product.priceLabel}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="character-release-note">Play Console에는 위 상품 ID와 동일한 일회성 제품을 등록해야 합니다.</p>
+            </section>
           </div>
         </aside>
       )}

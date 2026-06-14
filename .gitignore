@@ -11,3 +11,16 @@ output/
 
 .DS_Store
 Thumbs.db
+
+# Android local/build output and signing secrets
+android/.gradle/
+android/.kotlin/
+android/build/
+android/app/build/
+android/local.properties
+android/keystore.properties
+android/app/upload-keystore.jks
+*.apk
+*.aab
+*.jks
+*.keystore

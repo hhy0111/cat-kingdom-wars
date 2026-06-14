@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import stages from "../data/stages";
+import { getBillingProduct, type BillingProductId } from "../game/billing";
 import type { BattleResult } from "../game/types";
 
 type GameScreen = "opening" | "loading" | "lobby" | "battle" | "result";
@@ -31,7 +32,7 @@ export const allCharacterIds = [
 
 export type CharacterId = (typeof allCharacterIds)[number];
 
-type ShopCost = {
+export type ShopCost = {
   gold?: number;
   fish?: number;
 };
@@ -100,6 +101,7 @@ type GameStore = {
   startStage: (stageId: string) => void;
   purchaseKingdomUpgrade: (kind: KingdomUpgradeKind) => PurchaseResult;
   purchaseCharacter: (characterId: CharacterId) => PurchaseResult;
+  claimBillingProduct: (productId: BillingProductId) => RewardClaimResult;
   claimDailyReward: () => RewardClaimResult;
   claimDoubleBattleReward: () => RewardClaimResult;
   recordSkillUse: () => void;
@@ -574,6 +576,24 @@ export const useGameStore = create<GameStore>((set, get) => ({
     saveProgress(nextProgress);
     set({ progress: nextProgress });
     return { ok: true, cost: item.cost };
+  },
+
+  claimBillingProduct: (productId: BillingProductId) => {
+    const product = getBillingProduct(productId);
+    if (!product) {
+      return { ok: false, reward: {}, reason: "no_reward" };
+    }
+
+    const progress = normalizeProgress(get().progress);
+    const reward = { ...product.reward };
+    const nextProgress = {
+      ...progress,
+      gold: progress.gold + (reward.gold ?? 0),
+      fish: progress.fish + (reward.fish ?? 0),
+    };
+    saveProgress(nextProgress);
+    set({ progress: nextProgress });
+    return { ok: true, reward };
   },
 
   claimDailyReward: () => {

@@ -807,3 +807,105 @@ Original prompt: Build Cat Kingdom Wars as a high-quality 2D strategy game. The 
 - Verification:
   - TDD red run confirmed the `/docs` privacy page was missing,
   - targeted privacy page test passed: 3/3 tests.
+
+2026-06-14 AdMob production unit bridge integration:
+- User provided Android AdMob app/unit IDs:
+  - app ID `ca-app-pub-4402708884038037~4420529687`,
+  - app-open unit `CKW_Android_AppOpen_Return` / `ca-app-pub-4402708884038037/9285843556`,
+  - interstitial unit `CKW_Android_Interstitial_StageBreak` / `ca-app-pub-4402708884038037/3654242921`,
+  - rewarded unit `CKW_Android_Rewarded_ResultBonus` / `ca-app-pub-4402708884038037/6280406266`.
+- Constraint:
+  - repository is still a Vite/React web game with no `android/` project or `AndroidManifest.xml`, so native SDK registration must be completed later in the Android wrapper.
+- Changes:
+  - added `src/game/adMob.ts` with production app/unit IDs and a `window.CatKingdomWarsAdMob` bridge contract,
+  - app startup now initializes the bridge and requests app-open ads on launch/visibility return when a native bridge exists,
+  - result-screen double reward now calls the rewarded ad bridge before paying the extra reward,
+  - result-screen lobby return now calls the stage-break interstitial bridge before entering the lobby,
+  - browser/dev mode keeps app-open and interstitial as no-ops and simulates only the rewarded result bonus.
+- Verification:
+  - TDD red run confirmed missing `adMob` module and missing screen wiring,
+  - targeted AdMob test passed: 8/8 tests,
+  - `npm test` passed: 56/56 tests,
+  - `npm run build` passed,
+  - official develop-web-game capture on `http://127.0.0.1:5188` saved under `output/web-game/admob-integration-2026-06-14/official-5188/`,
+ - direct Playwright result flow saved under `output/web-game/admob-integration-2026-06-14/direct/`; state confirmed reward multiplier changed from 1 to 2 after the rewarded fallback, lobby return succeeded through the interstitial fallback, and there were no console/page/request errors.
+
+2026-06-14 Android Play Store AAB release packaging:
+- User requested a release-ready AAB for Google Play upload before completing store listing/payment entries.
+- Changes:
+  - added Capacitor Android packaging with app ID `com.hhy0111.catkingdomwars`, app name `냥이 왕국 전쟁`, versionCode `1`, and versionName `1.0.0`,
+  - generated a signed release bundle at `android/app/build/outputs/bundle/release/app-release.aab`,
+  - added release signing through ignored local files `android/app/upload-keystore.jks` and `android/keystore.properties`,
+  - added `scripts/build-android-release.ps1` to build with the installed JDK 21 required by the Android/AdMob toolchain,
+  - generated Play Store graphics under `store-assets/` and Android launcher mipmap icons from the approved generated image assets,
+  - installed `@capacitor-community/admob@7.2.0` and wired native rewarded/interstitial ads through the Capacitor plugin while retaining the custom bridge fallback,
+  - moved the AdMob application ID into `android/app/src/main/res/values/strings.xml` and referenced it from `AndroidManifest.xml`.
+- Release artifact:
+  - AAB path: `D:\dev\game314\android\app\build\outputs\bundle\release\app-release.aab`,
+  - size: `161,169,305` bytes,
+  - SHA-256: `94A5FE4F6948B01055F4F31341825CF6F26B0A8E2706B2A90B554A41F5A917D0`.
+- Verification:
+  - `npm run android:bundle` passed and Gradle included `@capacitor-community/admob@7.2.0`,
+  - `npm test` passed: 62/62 tests across 15 files,
+  - `npm audit --omit=dev` found 0 vulnerabilities,
+  - `jarsigner -verify` returned `jar verified`,
+  - final AAB contents include `play-services-ads` metadata.
+- Important:
+  - back up `android/app/upload-keystore.jks` and `android/keystore.properties`; future Play updates require the same upload key credentials.
+
+2026-06-14 Android Play Billing AAB release packaging:
+- User requested all payment-capable work applied before uploading the next Play Console bundle.
+- Changes:
+  - added a Google Play Billing catalog for 9 consumable one-time products:
+    - `gold_1200` / KRW 1,100 / Gold 1,200,
+    - `gold_4000` / KRW 3,300 / Gold 4,000,
+    - `gold_9000` / KRW 6,600 / Gold 9,000,
+    - `fish_120` / KRW 1,100 / Fish 120,
+    - `fish_420` / KRW 3,300 / Fish 420,
+    - `fish_1000` / KRW 6,600 / Fish 1,000,
+    - `starter_pack_01` / KRW 4,400 / Gold 3,000 + Fish 250,
+    - `growth_pack_01` / KRW 9,900 / Gold 8,000 + Fish 700,
+    - `kingdom_pack_01` / KRW 19,900 / Gold 18,000 + Fish 1,500,
+  - added a lobby `결제 상점` that displays the catalog and calls native Play Billing only inside the Android app,
+  - added `claimBillingProduct` to grant purchased Gold/Fish rewards after the native purchase is consumed,
+  - added `PlayBillingPlugin.java` using Google Play Billing Library `9.0.0`,
+  - added `com.android.vending.BILLING` to the Android manifest,
+  - bumped Play release metadata to versionCode `2` and versionName `1.0.1`.
+- Release artifact:
+  - AAB path: `D:\dev\game314\android\app\build\outputs\bundle\release\app-release.aab`,
+  - size: `161,477,577` bytes,
+  - SHA-256: `26A98D27A9B16F8346C0B68BE7E3D30B844B2B1B87F0020ABA592E1B002CD518`.
+- Verification:
+  - TDD red run confirmed the billing module/lobby/native plugin were missing before implementation,
+  - targeted billing test passed: 5/5 tests,
+  - targeted Android release test passed: 3/3 tests,
+  - `npm test` passed: 67/67 tests across 16 files,
+  - `npm audit --omit=dev` found 0 vulnerabilities,
+  - `npm run android:bundle` passed,
+  - `jarsigner -verify` returned `jar verified`,
+  - final AAB contents include `base/root/billing.properties`.
+- Important:
+  - upload this new AAB before creating Play Console one-time products; Play Console will only expose one-time product setup after it sees the billing permission in the uploaded app bundle.
+  - the real purchase flow still needs internal/closed test verification through Play Console license testers after the products are created and activated.
+
+2026-06-14 Play Console production product registration:
+- User uploaded the payment-enabled AAB and opened the one-time product registration flow.
+- Release page issue resolved by keeping only the newer AAB in the production release:
+  - keep `App bundle 2 (1.0.1)` / versionCode `2`,
+  - remove the older `App bundle 1 (1.0.0)` / versionCode `1` from the same production release.
+- Play Console one-time products were entered with the app's coded product IDs and one active purchase option each:
+  - product `gold_1200`, purchase option `gold-1200-buy`, KRW 1,100, grants Gold 1,200,
+  - product `gold_4000`, purchase option `gold-4000-buy`, KRW 3,300, grants Gold 4,000,
+  - product `gold_9000`, purchase option `gold-9000-buy`, KRW 6,600, grants Gold 9,000,
+  - product `fish_120`, purchase option `fish-120-buy`, KRW 1,100, grants Fish 120,
+  - product `fish_420`, purchase option `fish-420-buy`, KRW 3,300, grants Fish 420,
+  - product `fish_1000`, purchase option `fish-1000-buy`, KRW 6,600, grants Fish 1,000,
+  - product `starter_pack_01`, purchase option `starter-pack-01-buy`, KRW 4,400, grants Gold 3,000 + Fish 250,
+  - product `growth_pack_01`, purchase option `growth-pack-01-buy`, KRW 9,900, grants Gold 8,000 + Fish 700,
+  - product `kingdom_pack_01`, purchase option `kingdom-pack-01-buy`, KRW 19,900, grants Gold 18,000 + Fish 1,500.
+- Notes:
+  - product IDs use underscores because they are the stable IDs queried by the app code,
+  - purchase option IDs use hyphens because Play Console rejected underscores for that field,
+  - tags were left empty,
+  - purchase type is `구입` for every option,
+  - no rebuild is required after creating or activating these purchase options because the app only depends on the product IDs.

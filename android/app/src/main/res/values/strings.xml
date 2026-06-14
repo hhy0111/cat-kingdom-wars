@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">냥이 왕국 전쟁</string>
+    <string name="title_activity_main">냥이 왕국 전쟁</string>
+    <string name="admob_app_id">ca-app-pub-4402708884038037~4420529687</string>
+    <string name="package_name">com.hhy0111.catkingdomwars</string>
+    <string name="custom_url_scheme">com.hhy0111.catkingdomwars</string>
+</resources>

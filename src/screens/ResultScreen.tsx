@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import stages from "../data/stages";
+import { showResultBonusRewardedAd, showStageBreakInterstitial } from "../game/adMob";
 import { playBattleResultSfx, playSfx, unlockGameAudio } from "../game/audio";
 import { useGameStore } from "../store/gameStore";
 
@@ -12,6 +13,7 @@ export function ResultScreen() {
   const retryStage = useGameStore((state) => state.retryStage);
   const enterLobby = useGameStore((state) => state.enterLobby);
   const [adState, setAdState] = useState<"idle" | "loading" | "claimed">("idle");
+  const [isLeavingResult, setIsLeavingResult] = useState(false);
   const resultSfxKeyRef = useRef<string | null>(null);
   const isWin = result?.winnerFactionId === "cat_kingdom";
   const selectedStage = useMemo(
@@ -44,7 +46,13 @@ export function ResultScreen() {
 
     playSfx("adRewardReady");
     setAdState("loading");
-    await mockRewardAd();
+    const adResult = await showResultBonusRewardedAd();
+    if (!adResult.rewarded) {
+      setAdState("idle");
+      playSfx("uiDisabled");
+      return;
+    }
+
     const result = claimDoubleBattleReward();
     setAdState(result.ok ? "claimed" : "idle");
     if (result.ok) {
@@ -54,6 +62,17 @@ export function ResultScreen() {
     } else {
       playSfx("uiDisabled");
     }
+  };
+
+  const handleEnterLobby = async () => {
+    if (isLeavingResult) {
+      return;
+    }
+
+    playSfx("uiTap");
+    setIsLeavingResult(true);
+    await showStageBreakInterstitial();
+    enterLobby();
   };
 
   useEffect(() => {
@@ -67,9 +86,20 @@ export function ResultScreen() {
         rewards: displayedRewards,
         rewardMultiplier,
         adDoubleRewardState: adState,
+        isLeavingResult,
       });
     window.advanceTime = undefined;
-  }, [adState, displayedRewards, isWin, result?.winnerFactionId, rewardMultiplier, selectedStage.id, selectedStage.name, selectedStageId]);
+  }, [
+    adState,
+    displayedRewards,
+    isLeavingResult,
+    isWin,
+    result?.winnerFactionId,
+    rewardMultiplier,
+    selectedStage.id,
+    selectedStage.name,
+    selectedStageId,
+  ]);
 
   return (
     <section className={`result-screen screen-fill ${isWin ? "victory" : "defeat"}`}>
@@ -123,17 +153,16 @@ export function ResultScreen() {
           <button
             type="button"
             className="primary-action"
-            onClick={() => {
-              playSfx("uiTap");
-              enterLobby();
-            }}
+            disabled={isLeavingResult}
+            onClick={handleEnterLobby}
           >
-            로비
+            {isLeavingResult ? "로비 이동 중..." : "로비"}
           </button>
           {!isWin && (
             <button
               type="button"
               className="secondary-action"
+              disabled={isLeavingResult}
               onClick={() => {
                 playSfx("uiTap");
                 retryStage();
@@ -146,10 +175,4 @@ export function ResultScreen() {
       </div>
     </section>
   );
-}
-
-function mockRewardAd(): Promise<void> {
-  return new Promise((resolve) => {
-    window.setTimeout(resolve, 1000);
-  });
 }
